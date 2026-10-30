@@ -6,13 +6,13 @@ namespace MuseumExplorer.Api.Controllers;
 
 [ApiController]
 [Route("health")]
-public class HealthController(MuseumDbContext db) : ControllerBase
+public class HealthController : ControllerBase
 {
     [HttpGet]
     public IActionResult Get() => Ok(new { status = "ok" });
 
     [HttpGet("ready")]
-    public async Task<IActionResult> Ready(CancellationToken ct)
+    public async Task<IActionResult> Ready([FromServices] MuseumDbContext db, CancellationToken ct)
     {
         try
         {
