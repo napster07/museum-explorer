@@ -15,7 +15,7 @@ Implemented:
 - Sanity Studio exhibition schema, seed content and C# GraphQL adapter.
 - Explicit Sample/Sanity modes, published-only content delivery and sanitized CMS failures.
 
-Exhibition content defaults to the sample catalogue until you connect your Sanity account. Follow [Connect Sanity and GraphQL](docs/sanity-setup.md) to create the project, import content, deploy GraphQL and switch the backend provider. Kiosk mode, feedback, AWS deployment and production operations are future milestones.
+Exhibition content defaults to the sample catalogue until you connect your Sanity account. Follow [Connect Sanity and GraphQL](docs/sanity-setup.md) to create the project, import content, deploy GraphQL and switch the backend provider. Shared kiosk mode is available at /kiosk. Feedback, AWS deployment and production operations are future milestones.
 
 ## Requirements
 
@@ -93,6 +93,13 @@ Pop-Location
 
 The smoke test requires the running API and a migrated SQL Server database. It creates one itinerary, retrieves it with its token and verifies stop order. It never prints the token. Unit/API tests do not claim to verify SQL Server persistence.
 
+## Shared kiosk and accessibility
+
+Open http://127.0.0.1:3000/kiosk for a shared-screen visit planner. It never saves
+visitor tokens and resets after five idle minutes, with a one-minute warning and
+unlimited extensions. See [Kiosk and accessibility](docs/kiosk-accessibility.md)
+for usage, automated browser checks and the remaining manual verification.
+
 ## API
 
 | Method | Route | Purpose |
@@ -122,10 +129,10 @@ Missing/empty, duplicate and unknown exhibition IDs are rejected. Unauthenticate
 
 ## Development boundaries
 
-Tokens are stored in browser local storage on personal devices. Anyone with that browser profile can access its saved itinerary. Kiosk mode must avoid persistent visitor tokens and clear state on idle. The 30-day expiry prevents access; physical cleanup of expired database rows is a future scheduled job.
+Tokens are stored in browser local storage on personal devices. Anyone with that browser profile can access its saved itinerary. The dedicated /kiosk route keeps plans in memory and clears them after an extendable idle timeout or Finish visit. The 30-day expiry prevents access; physical cleanup of expired database rows is a future scheduled job.
 
 The local HTTP binding, host allowlist and basic per-IP write limiter are development defaults. Before hosting: configure HTTPS, allowed hosts, trusted proxy handling, secret management, distributed rate limits as needed, database backups, cleanup jobs and monitoring.
 
 ## Next milestone
 
-SQL Server and Sanity end-to-end verification have been reported successful. Follow [GitHub and CI setup](docs/github-setup.md) to publish this repository and verify the hosted checks. Draft preview, kiosk mode and cloud deployment remain future work.
+SQL Server and Sanity end-to-end verification have been reported successful. Follow [GitHub and CI setup](docs/github-setup.md) to publish this repository and verify the hosted checks. Draft preview and cloud deployment remain future work.
