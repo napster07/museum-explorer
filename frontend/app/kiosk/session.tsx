@@ -52,7 +52,7 @@ export default function KioskSession() {
       if (Date.now() >= deadline.current) { resetAction.current(); return; }
       if (!dialog.current?.open) deadline.current = Date.now() + idleMs;
     }
-    const events = ["pointerdown", "keydown", "wheel", "touchstart"] as const;
+    const events = ["pointerdown", "keydown", "wheel", "touchstart", "click"] as const;
     events.forEach(event => window.addEventListener(event, activity, { passive: true }));
     document.addEventListener("visibilitychange", check);
     window.addEventListener("focus", check);
