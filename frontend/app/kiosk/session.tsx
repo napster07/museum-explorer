@@ -27,6 +27,7 @@ export default function KioskSession() {
     setNotice("The previous visit has been cleared. Welcome—start a new visit.");
   }
   function keepGoing() {
+    if (Date.now() >= deadline.current) { finish(); return; }
     dialog.current?.close();
     deadline.current = Date.now() + idleMs;
     previousFocus.current?.focus();
